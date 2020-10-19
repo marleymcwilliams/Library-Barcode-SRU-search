@@ -1,7 +1,15 @@
 function getTitle(barcode){
 
-  var url="https://na01.alma.exlibrisgroup.com/view/sru/01ALLIANCE_OSU?version=1.2&operation=searchRetrieve&query=alma.barcode="+barcode;
+  var url="https://na01.alma.exlibrisgroup.com/view/sru/"+
+  
+    //PLUG IN INSTITUTION CODE BETWEEN THE QUOTATION MARKS BELOW
+    ""
+    
+    +"?version=1.2&operation=searchRetrieve&query=alma.barcode="+barcode;
     var xml = UrlFetchApp.fetch(url).getContentText();
+    
+    
+    
   var document = XmlService.parse(xml);
   var root = document.getRootElement();
   var srw = XmlService.getNamespace('http://www.loc.gov/zing/srw/');
@@ -31,7 +39,12 @@ function getTitle(barcode){
 
 function getMmsId(barcode){
 
-  var url="https://na01.alma.exlibrisgroup.com/view/sru/01ALLIANCE_OSU?version=1.2&operation=searchRetrieve&query=alma.barcode="+barcode;
+  var url="https://na01.alma.exlibrisgroup.com/view/sru/"+
+  
+    //PLUG IN INSTITUTION CODE BETWEEN THE QUOTATION MARKS BELOW
+    ""
+    
+    +"?version=1.2&operation=searchRetrieve&query=alma.barcode="+barcode;
     var xml = UrlFetchApp.fetch(url).getContentText();
   var document = XmlService.parse(xml);
   var root = document.getRootElement();
