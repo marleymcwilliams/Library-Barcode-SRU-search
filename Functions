@@ -1,0 +1,44 @@
+function getTitle(barcode){
+
+  var url="https://na01.alma.exlibrisgroup.com/view/sru/01ALLIANCE_OSU?version=1.2&operation=searchRetrieve&query=alma.barcode="+barcode;
+    var xml = UrlFetchApp.fetch(url).getContentText();
+  var document = XmlService.parse(xml);
+  var root = document.getRootElement();
+  var srw = XmlService.getNamespace('http://www.loc.gov/zing/srw/');
+  var marc = XmlService.getNamespace('http://www.loc.gov/MARC21/slim');
+  
+  var record = root.getChild('records', srw).getChild('record', srw).getChild('recordData', srw).getChild('record', marc);
+  var datafields = record.getChildren('datafield', marc);
+  
+  var title="";
+  for (var i = 0; i < datafields.length; i++) {
+    
+    var marcTag=datafields[i].getAttribute('tag').getValue();
+    if(marcTag=="245"){
+      var subfields=datafields[i].getChildren("subfield",marc);
+      
+      for (j=0; j<subfields.length; j++){
+        var x=subfields[j].getValue();
+        Logger.log(x);
+        
+        title +=x
+      }
+    }
+  }
+  Logger.log(title)
+  return title;
+}
+
+function getMmsId(barcode){
+
+  var url="https://na01.alma.exlibrisgroup.com/view/sru/01ALLIANCE_OSU?version=1.2&operation=searchRetrieve&query=alma.barcode="+barcode;
+    var xml = UrlFetchApp.fetch(url).getContentText();
+  var document = XmlService.parse(xml);
+  var root = document.getRootElement();
+  var srw = XmlService.getNamespace('http://www.loc.gov/zing/srw/');
+  
+  var mmsid = root.getChild('records', srw).getChild('record', srw).getChild('recordIdentifier', srw).getValue();
+
+  Logger.log(mmsid)
+  return mmsid
+}
